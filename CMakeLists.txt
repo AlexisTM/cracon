@@ -31,6 +31,9 @@ if(NOT nlohmann_json_FOUND)
   install(
     DIRECTORY ${CMAKE_BINARY_DIR}/nlohmann-json/single_include/
     DESTINATION include/flacon)
+
+  target_include_directories(${PROJECT_NAME} PUBLIC
+    $<INSTALL_INTERFACE:include/flacon>)
   add_dependencies(${PROJECT_NAME} json-dep)
 else()
   target_link_libraries(${PROJECT_NAME} nlohmann_json)
