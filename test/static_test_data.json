@@ -1,0 +1,35 @@
+{
+  "number_0": 0,
+  "number_100": 100,
+  "float_0": 0.0,
+  "float_100": 100.0,
+  "string_1": "",
+  "string_2": "Pretty long string, so small string optimization doesn't fit in, nice",
+  "vector_int": [
+    1,
+    2,
+    3
+  ],
+  "vector_float": [
+    1.0,
+    2.0,
+    3.0
+  ],
+  "vector_str": [
+    "1",
+    "2",
+    "3"
+  ],
+  "vector_invalid": [
+    "1",
+    2,
+    3.0
+  ],
+  "this": {
+    "is": {
+      "pretty": {
+        "deep": 42
+      }
+    }
+  }
+}
