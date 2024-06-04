@@ -56,7 +56,7 @@ Will result in:
 {
   "int": 1,
   "oh": { "hi": "mark" },
-  "data: [1., 2., 3.]
+  "data": [1.0, 2.0, 3.0]
 }
 
 // config.json
