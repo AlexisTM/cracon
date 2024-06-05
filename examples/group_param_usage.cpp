@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include <cstdio>
 #include <cracon/cracon.hpp>
 
@@ -25,7 +26,7 @@ int main() {
   Car car = Car(config.get_group("car"));
   car.speed.set(1000);
 
-  printf("speed: %ld, horsepower %ld\n", car.speed.get(), car.horsepower.get());
+  printf("speed: %" PRId64 ", horsepower %" PRId64 "\n", car.speed.get(), car.horsepower.get());
 
   // Avoid copies of large data. Note the `auto&`
   printf("curve: ");
