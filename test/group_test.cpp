@@ -9,7 +9,7 @@
 
 std::string current_folder = "";
 
-TEST(SubFile, setter_and_writer) {
+TEST(GroupTest, setter_and_writer) {
   std::string filename = current_folder + "/group_output_test.json";
   std::remove(filename.c_str());  // Remove the file if it exists
   flacon::SharedFile file;
@@ -48,7 +48,7 @@ TEST(SubFile, setter_and_writer) {
 */
 }
 
-TEST(SubFile, live_param) {
+TEST(GroupTest, parameters) {
   std::string filename = current_folder + "/group_param_test.json";
   std::remove(filename.c_str());  // Remove the file if it exists
   flacon::SharedFile file;
@@ -65,7 +65,7 @@ TEST(SubFile, live_param) {
 }
 
 
-TEST(SubFile, param_chage_from_ref) {
+TEST(GroupTest, param_change_from_ref) {
   std::string filename = current_folder + "/group_param_test.json";
   std::remove(filename.c_str());  // Remove the file if it exists
   flacon::SharedFile file;

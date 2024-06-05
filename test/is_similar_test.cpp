@@ -26,12 +26,12 @@ void test_all_items(nlohmann::json const &json_data, std::string const &name)
 }
 
 // The fixture for testing class Foo.
-class ManyJsonValues : public ::testing::Test
+class IsSimilarTest : public ::testing::Test
 {
 protected:
   // You can remove any or all of the following functions if their bodies would
 
-  ManyJsonValues()
+  IsSimilarTest()
   {
     // Integers
     json_data_["int8_unsigned8_one"] = 1;
@@ -66,7 +66,7 @@ protected:
     json_data_ = nlohmann::json::parse(json_data_.dump());
   }
 
-  ~ManyJsonValues() override
+  ~IsSimilarTest() override
   {
     // You can do clean-up work that doesn't throw exceptions here.
   }
@@ -90,72 +90,72 @@ public:
   nlohmann::json json_data_;
 };
 
-TEST_F(ManyJsonValues, test_int64)
+TEST_F(IsSimilarTest, test_int64)
 {
   test_all_items<int64_t>(json_data_, "int");
 }
 
-TEST_F(ManyJsonValues, test_int8)
+TEST_F(IsSimilarTest, test_int8)
 {
   test_all_items<int8_t>(json_data_, "int8");
 }
 
-TEST_F(ManyJsonValues, test_uint64)
+TEST_F(IsSimilarTest, test_uint64)
 {
   test_all_items<uint64_t>(json_data_, "unsigned");
 }
 
-TEST_F(ManyJsonValues, test_uint8)
+TEST_F(IsSimilarTest, test_uint8)
 {
   test_all_items<uint8_t>(json_data_, "unsigned8");
 }
 
-TEST_F(ManyJsonValues, test_string)
+TEST_F(IsSimilarTest, test_string)
 {
   test_all_items<std::string>(json_data_, "string");
 }
 
-TEST_F(ManyJsonValues, test_float)
+TEST_F(IsSimilarTest, test_float)
 {
   test_all_items<float>(json_data_, "float");
 }
 
-TEST_F(ManyJsonValues, test_double)
+TEST_F(IsSimilarTest, test_double)
 {
   test_all_items<double>(json_data_, "double");
 }
 
-TEST_F(ManyJsonValues, test_boolean)
+TEST_F(IsSimilarTest, test_boolean)
 {
   test_all_items<bool>(json_data_, "bool");
 }
 
-TEST_F(ManyJsonValues, test_vector_str)
+TEST_F(IsSimilarTest, test_vector_str)
 {
   test_all_items<std::vector<std::string>>(json_data_, "array_str");
 }
 
-TEST_F(ManyJsonValues, test_vector_int)
+TEST_F(IsSimilarTest, test_vector_int)
 {
   test_all_items<std::vector<int>>(json_data_, "array_i");
 }
 
-TEST_F(ManyJsonValues, test_array_str_2)
+TEST_F(IsSimilarTest, test_array_str_2)
 {
   test_all_items<std::array<std::string, 2>>(json_data_, "array_str");
 }
 
-TEST_F(ManyJsonValues, test_array_str_wrong_number)
+TEST_F(IsSimilarTest, test_array_str_wrong_number)
 {
   test_all_items<std::array<std::string, 10>>(json_data_, "matchnone!");
 }
 
-TEST_F(ManyJsonValues, test_array_int_3)
+TEST_F(IsSimilarTest, test_array_int_3)
 {
   test_all_items<std::array<int, 3>>(json_data_, "array_i");
 }
 
-TEST_F(ManyJsonValues, test_array_int_wrong_number)
+TEST_F(IsSimilarTest, test_array_int_wrong_number)
 {
   test_all_items<std::array<int, 10>>(json_data_, "matchnone!");
 }
