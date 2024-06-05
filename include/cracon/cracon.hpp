@@ -169,7 +169,7 @@ class SharedFile : public File {
      * @brief Allow to store this structure on the stack to avoid double
      * indirection.
      */
-    Param(){};
+    Param(): data({}) {};
 
     /**
      * @brief Fetches a copy of the current data. This doesn't touch the file.
