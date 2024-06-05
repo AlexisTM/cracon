@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.14)
 project(flacon LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -7,40 +7,19 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 option(BUILD_EXAMPLES "Build the examples" ON)
 
+include(cmake/CPM.cmake)
+
 add_library(${PROJECT_NAME} src/flacon.cpp)
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
 target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-# nlohmann-json3-dev
-find_package(nlohmann_json 3 QUIET)
+CPMAddPackage("gh:nlohmann/json@3.11.3")
+target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json)
+add_dependencies(${PROJECT_NAME} nlohmann_json)
 
-if(NOT nlohmann_json_FOUND)
-  include(ExternalProject)
-
-  ExternalProject_Add(json-dep
-    GIT_REPOSITORY "https://github.com/nlohmann/json.git"
-    GIT_TAG "v3.11.3"
-    GIT_SHALLOW TRUE
-    SOURCE_DIR ${CMAKE_BINARY_DIR}/nlohmann-json
-    CONFIGURE_COMMAND ""
-    BUILD_COMMAND ""
-    INSTALL_COMMAND ""
-    LOG_DOWNLOAD ON)
-  include_directories(${CMAKE_BINARY_DIR}/nlohmann-json/single_include)
-  install(
-    DIRECTORY ${CMAKE_BINARY_DIR}/nlohmann-json/single_include/
-    DESTINATION include/flacon)
-
-  target_include_directories(${PROJECT_NAME} PUBLIC
-    $<INSTALL_INTERFACE:include/flacon>)
-  add_dependencies(${PROJECT_NAME} json-dep)
-else()
-  target_link_libraries(${PROJECT_NAME} nlohmann_json)
-  add_dependencies(${PROJECT_NAME} nlohmann_json)
-endif()
-
-message("${nlohmann_json_INCLUDE_DIR}")
 
 install(
   DIRECTORY include/
@@ -64,19 +43,15 @@ if(BUILD_EXAMPLES)
 endif()
 
 if(BUILD_TESTING)
-  include(FetchContent)
-  FetchContent_Declare(
-    googletest
-    URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+  enable_testing()
+  CPMAddPackage(
+    NAME googletest
+    GITHUB_REPOSITORY google/googletest
+    GIT_TAG v1.14.0
+    VERSION 1.14.0
+    OPTIONS "INSTALL_GTEST OFF" "gtest_force_shared_crt"
   )
 
-  # For Windows: Prevent overriding the parent project's compiler/linker settings
-  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-  FetchContent_MakeAvailable(googletest)
-  enable_testing()
-
-  include(GoogleTest)
   add_executable(${PROJECT_NAME}_is_similar_test test/is_similar_test.cpp)
   target_link_libraries(${PROJECT_NAME}_is_similar_test ${PROJECT_NAME} GTest::gtest_main)
 

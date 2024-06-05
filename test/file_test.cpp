@@ -7,7 +7,7 @@
 std::string current_folder = "";
 
 #define ADD_TEST_INT(TYPE, VALUE, DEFAULT_VALUE)                           \
-  TEST(File, getter_##TYPE) {                                              \
+  TEST(FileTest, getter_##TYPE) {                                              \
     flacon::File file;                                                     \
     bool success =                                                         \
         file.init(current_folder + "/static_test_data.json",               \
@@ -40,7 +40,7 @@ ADD_TEST_INT(uint16_t, 42, 69)
 ADD_TEST_INT(uint32_t, 42, 69)
 ADD_TEST_INT(uint64_t, 42, 69)
 
-TEST(File, getter_float) {
+TEST(FileTest, getter_float) {
   flacon::File file;
   bool success = file.init(current_folder + "/static_test_data.json",
                            current_folder + "/static_test_data_default.json");
@@ -57,7 +57,7 @@ TEST(File, getter_float) {
   EXPECT_EQ(val, 1000.0) << "The precedent default value is overwritten";
 }
 
-TEST(File, getter_string) {
+TEST(FileTest, getter_string) {
   flacon::File file;
   bool success = file.init(current_folder + "/static_test_data.json",
                            current_folder + "/static_test_data_default.json");
@@ -77,7 +77,7 @@ TEST(File, getter_string) {
       << "The precedent default value should have been added";
 }
 
-TEST(File, getter_vectors) {
+TEST(FileTest, getter_vectors) {
   flacon::File file;
   bool success = file.init(current_folder + "/static_test_data.json",
                            current_folder + "/static_test_data_default.json");
@@ -116,7 +116,7 @@ TEST(File, getter_vectors) {
   EXPECT_EQ(val_str[2], "Mark");
 }
 
-TEST(File, getter_array) {
+TEST(FileTest, getter_array) {
   flacon::File file;
   bool success = file.init(current_folder + "/static_test_data.json",
                            current_folder + "/static_test_data_default.json");
@@ -155,7 +155,7 @@ TEST(File, getter_array) {
   EXPECT_EQ(val_str[2], "Mark");
 }
 
-TEST(File, getter_deep_parameter) {
+TEST(FileTest, getter_deep_parameter) {
   flacon::File file;
   bool success = file.init(current_folder + "/static_test_data.json",
                            current_folder + "/static_test_data_default.json");
@@ -169,7 +169,7 @@ TEST(File, getter_deep_parameter) {
   EXPECT_EQ(val, 1000) << "The precedent default value is overwritten";
 }
 
-TEST(File, setter_and_writer) {
+TEST(FileTest, setter_and_writer) {
   std::string filename = current_folder + "/output_setter_and_writer.json";
   std::remove(filename.c_str());  // Remove the file if it exists
   flacon::File file;
@@ -204,7 +204,7 @@ TEST(File, setter_and_writer) {
 */
 }
 
-TEST(File, getters_changes_defaults) {
+TEST(FileTest, getters_changes_defaults) {
   std::string filename = current_folder + "/output_setter_and_writer.json";
   std::remove(filename.c_str());  // Remove the file if it exists
   flacon::File file;
