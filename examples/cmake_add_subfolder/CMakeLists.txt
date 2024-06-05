@@ -15,14 +15,14 @@ endif()
 
 set(BUILD_TESTING OFF CACHE BOOL "")
 set(BUILD_EXAMPLES OFF CACHE BOOL "")
-add_subdirectory(../../ flacon-dep)
+add_subdirectory(../../ cracon-dep)
 
 add_executable(${PROJECT_NAME} main.cpp)
 target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(${PROJECT_NAME} flacon)
+target_link_libraries(${PROJECT_NAME} cracon)
 
 install(
   TARGETS ${PROJECT_NAME}

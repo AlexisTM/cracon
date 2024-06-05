@@ -1,4 +1,4 @@
-#include "flacon/flacon.hpp"
+#include "cracon/cracon.hpp"
 
 #include <cassert>
 #include <exception>
@@ -6,7 +6,7 @@
 
 #include "nlohmann/json.hpp"
 
-namespace flacon {
+namespace cracon {
 bool File::write() {
   std::unique_lock lock(mutex_);
   if (should_write_config_) {
@@ -27,7 +27,7 @@ bool File::write_to_file(std::string const &filename,
                          nlohmann::json const &config) {
   try {
     if (filename.empty()) {
-      printf("[flacon] [ERROR] The filename is not set, did you init?\n");
+      printf("[cracon] [ERROR] The filename is not set, did you init?\n");
       assert(false);
       return false;
     }
@@ -36,7 +36,7 @@ bool File::write_to_file(std::string const &filename,
     output_file.close();
     return true;
   } catch (std::exception const &ex) {
-    fprintf(stderr, "[Flacon] [ERROR] Error writing the file %s: %s\n",
+    fprintf(stderr, "[Cracon] [ERROR] Error writing the file %s: %s\n",
             filename.c_str(), ex.what());
     return false;
   }
@@ -58,7 +58,7 @@ bool File::init(std::string const &filename_config,
         }
       }
     } catch (std::exception const &ex) {
-      fprintf(stderr, "[flacon] [ERROR] %s\n", ex.what());
+      fprintf(stderr, "[cracon] [ERROR] %s\n", ex.what());
       return false;
     }
   }
@@ -74,4 +74,4 @@ bool SharedFile::should_write() { return file_->should_write(); }
 
 bool SharedFile::write() { return file_->write(); }
 
-}  // namespace flacon
+}  // namespace cracon

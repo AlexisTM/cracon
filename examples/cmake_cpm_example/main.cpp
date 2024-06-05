@@ -1,7 +1,7 @@
-#include <flacon/flacon.hpp>
+#include <cracon/cracon.hpp>
 
 int main(int argc, char** argv) {
-  flacon::File config;
+  cracon::File config;
   bool success = config.init("config.json", "defaults.json");
   if (!success) {
     fprintf(stderr, "We failed to open, read or write the configuration files.");

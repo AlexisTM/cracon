@@ -3,10 +3,10 @@
 
 #include <gtest/gtest.h>
 
-#include <flacon/flacon.hpp>
+#include <cracon/cracon.hpp>
 #include <vector>
 
-using namespace flacon;
+using namespace cracon;
 
 template <typename T>
 void test_all_items(nlohmann::json const &json_data, std::string const &name)

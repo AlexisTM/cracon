@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <flacon/flacon.hpp>
+#include <cracon/cracon.hpp>
 #include <string>
 #include <vector>
 
@@ -8,7 +8,7 @@ std::string current_folder = "";
 
 #define ADD_TEST_INT(TYPE, VALUE, DEFAULT_VALUE)                           \
   TEST(FileTest, getter_##TYPE) {                                              \
-    flacon::File file;                                                     \
+    cracon::File file;                                                     \
     bool success =                                                         \
         file.init(current_folder + "/static_test_data.json",               \
                   current_folder + "/static_test_data_default.json");      \
@@ -41,7 +41,7 @@ ADD_TEST_INT(uint32_t, 42, 69)
 ADD_TEST_INT(uint64_t, 42, 69)
 
 TEST(FileTest, getter_float) {
-  flacon::File file;
+  cracon::File file;
   bool success = file.init(current_folder + "/static_test_data.json",
                            current_folder + "/static_test_data_default.json");
   ASSERT_TRUE(success) << "The config file should be R/W";
@@ -58,7 +58,7 @@ TEST(FileTest, getter_float) {
 }
 
 TEST(FileTest, getter_string) {
-  flacon::File file;
+  cracon::File file;
   bool success = file.init(current_folder + "/static_test_data.json",
                            current_folder + "/static_test_data_default.json");
   ASSERT_TRUE(success) << "The config file should be R/W";
@@ -78,7 +78,7 @@ TEST(FileTest, getter_string) {
 }
 
 TEST(FileTest, getter_vectors) {
-  flacon::File file;
+  cracon::File file;
   bool success = file.init(current_folder + "/static_test_data.json",
                            current_folder + "/static_test_data_default.json");
   ASSERT_TRUE(success) << "The config file should be R/W";
@@ -117,7 +117,7 @@ TEST(FileTest, getter_vectors) {
 }
 
 TEST(FileTest, getter_array) {
-  flacon::File file;
+  cracon::File file;
   bool success = file.init(current_folder + "/static_test_data.json",
                            current_folder + "/static_test_data_default.json");
   ASSERT_TRUE(success) << "The config file should be R/W";
@@ -156,7 +156,7 @@ TEST(FileTest, getter_array) {
 }
 
 TEST(FileTest, getter_deep_parameter) {
-  flacon::File file;
+  cracon::File file;
   bool success = file.init(current_folder + "/static_test_data.json",
                            current_folder + "/static_test_data_default.json");
   ASSERT_TRUE(success) << "The config file should be R/W";
@@ -172,7 +172,7 @@ TEST(FileTest, getter_deep_parameter) {
 TEST(FileTest, setter_and_writer) {
   std::string filename = current_folder + "/output_setter_and_writer.json";
   std::remove(filename.c_str());  // Remove the file if it exists
-  flacon::File file;
+  cracon::File file;
   bool success = file.init(
       filename, current_folder + "/output_setter_and_writer_default.json");
 
@@ -207,7 +207,7 @@ TEST(FileTest, setter_and_writer) {
 TEST(FileTest, getters_changes_defaults) {
   std::string filename = current_folder + "/output_setter_and_writer.json";
   std::remove(filename.c_str());  // Remove the file if it exists
-  flacon::File file;
+  cracon::File file;
   bool success = file.init(
       filename, current_folder + "/getters_changes_defaults_default.json");
   ASSERT_TRUE(success) << "The config file should be R/W";

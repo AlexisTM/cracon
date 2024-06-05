@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <flacon/flacon.hpp>
+#include <cracon/cracon.hpp>
 #include <memory>
 #include <string>
 #include <vector>
@@ -12,7 +12,7 @@ std::string current_folder = "";
 TEST(GroupTest, setter_and_writer) {
   std::string filename = current_folder + "/group_output_test.json";
   std::remove(filename.c_str());  // Remove the file if it exists
-  flacon::SharedFile file;
+  cracon::SharedFile file;
   bool success =
       file.init(filename, current_folder + "/group_output_test_default.json");
   ASSERT_TRUE(success) << "The config file should be R/W";
@@ -31,7 +31,7 @@ TEST(GroupTest, setter_and_writer) {
   EXPECT_EQ(val, set_value) << "The precedent set should have been set.";
 
   /*
-  Content of build/flacon/group_output_test.json:
+  Content of build/cracon/group_output_test.json:
   {
     "nonexisting": {
         "but": {
@@ -51,7 +51,7 @@ TEST(GroupTest, setter_and_writer) {
 TEST(GroupTest, parameters) {
   std::string filename = current_folder + "/group_param_test.json";
   std::remove(filename.c_str());  // Remove the file if it exists
-  flacon::SharedFile file;
+  cracon::SharedFile file;
   bool success =
       file.init(filename, current_folder + "/group_output_test_default.json");
   auto param = file.get_param("/nonexisting/but/now/it/does/hurray", 1000);
@@ -68,7 +68,7 @@ TEST(GroupTest, parameters) {
 TEST(GroupTest, param_change_from_ref) {
   std::string filename = current_folder + "/group_param_test.json";
   std::remove(filename.c_str());  // Remove the file if it exists
-  flacon::SharedFile file;
+  cracon::SharedFile file;
   bool success =
       file.init(filename, current_folder + "/group_output_test_default.json");
   auto large_param = file.get_param<std::array<int32_t, 25>>("/large_element", {});

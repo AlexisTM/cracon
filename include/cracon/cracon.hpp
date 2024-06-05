@@ -1,15 +1,15 @@
-#ifndef FLACON_FLACON_HPP
-#define FLACON_FLACON_HPP
+#ifndef CRACON_CRACON_HPP
+#define CRACON_CRACON_HPP
 
 #include <cassert>
-#include <flacon/similarity_traits.hpp>
+#include <cracon/similarity_traits.hpp>
 #include <fstream>
 #include <memory>
 #include <mutex>
 #include <nlohmann/json.hpp>
 #include <string>
 
-namespace flacon {
+namespace cracon {
 class File {
  public:
   /**
@@ -48,11 +48,11 @@ class File {
     should_write_config_ = true;
     val = new_value;
     if (val.is_null()) {
-      printf("[flacon] [WARN] The key didn't exist for %s\n", accessor.c_str());
+      printf("[cracon] [WARN] The key didn't exist for %s\n", accessor.c_str());
     } else {
       if (!is_similar<T>(val)) {
         printf(
-            "[flacon] [WARN] The new key is not a similar type to the "
+            "[cracon] [WARN] The new key is not a similar type to the "
             "precedent configuration: %s replaced by %s\n",
             accessor.c_str(), val.dump().c_str());
       }
@@ -85,7 +85,7 @@ class File {
       auto &val = config_.at(pointer);
       if (val.is_null()) {
         printf(
-            "[flacon] [INFO] The requested key doesn't exist for %s defaulted "
+            "[cracon] [INFO] The requested key doesn't exist for %s defaulted "
             "to \n",
             default_[pointer].dump().c_str());
         return default_val;
@@ -94,7 +94,7 @@ class File {
       // using the wrong type; It is considered the code is right;
       if (!is_similar<T>(val)) {
         fprintf(stderr,
-                "[flacon] [ERROR] The read value %s is not a similar type to "
+                "[cracon] [ERROR] The read value %s is not a similar type to "
                 "%s at %s defaulted to %s\n",
                 val.dump().c_str(), typeid(T).name(), accessor.c_str(),
                 default_[pointer].dump().c_str());
@@ -103,7 +103,7 @@ class File {
       return val.get<T>();
     } catch (std::exception const &ex) {
       printf(
-          "[flacon] [INFO] The requested key doesn't exist for %s defaulted "
+          "[cracon] [INFO] The requested key doesn't exist for %s defaulted "
           "to %s. Error: %s\n",
           accessor.c_str(), default_[pointer].dump().c_str(), ex.what());
       return default_val;
@@ -321,6 +321,6 @@ class SharedFile : public File {
 };
 
 std::string get_package_share_directory(const std::string &package_name);
-}  // namespace flacon
+}  // namespace cracon
 
-#endif  // FLACON_FLACON_HPP
+#endif  // CRACON_CRACON_HPP

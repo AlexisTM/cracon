@@ -1,5 +1,5 @@
-#ifndef FLACON_SIMILARITY_TRAIT
-#define FLACON_SIMILARITY_TRAIT
+#ifndef CRACON_SIMILARITY_TRAIT
+#define CRACON_SIMILARITY_TRAIT
 
 #include <cassert>
 #include <cstdint>
@@ -10,7 +10,7 @@
 #include <string_view>
 #include <type_traits>
 
-namespace flacon {
+namespace cracon {
 
 template <typename T>
 struct is_vector : public std::false_type {};
@@ -51,11 +51,11 @@ bool is_similar(nlohmann::json const &value) {
     {
       int64_t parsed_value = value.get<int64_t>();
       if (parsed_value < std::numeric_limits<T>::lowest()) {
-        fprintf(stderr, "[flacon] [WARN] Out of bounds (min)\n");
+        fprintf(stderr, "[cracon] [WARN] Out of bounds (min)\n");
 
         return false;
       } else if (parsed_value > std::numeric_limits<T>::max()) {
-        fprintf(stderr, "[flacon] [WARN] Out of bounds (max)\n");
+        fprintf(stderr, "[cracon] [WARN] Out of bounds (max)\n");
         return false;
       }
     }
@@ -66,10 +66,10 @@ bool is_similar(nlohmann::json const &value) {
     {
       int64_t parsed_value = value.get<int64_t>();
       if (parsed_value < 0) {
-        fprintf(stderr, "[flacon] [WARN] Out of bounds (min) \n");
+        fprintf(stderr, "[cracon] [WARN] Out of bounds (min) \n");
         return false;
       } else if (parsed_value > std::numeric_limits<T>::max()) {
-        fprintf(stderr, "[flacon] [WARN] Out of bounds (max)\n");
+        fprintf(stderr, "[cracon] [WARN] Out of bounds (max)\n");
         return false;
       }
     }
@@ -80,10 +80,10 @@ bool is_similar(nlohmann::json const &value) {
     {
       double high_limit = value.get<double>();
       if (high_limit < std::numeric_limits<T>::lowest()) {
-        fprintf(stderr, "[flacon] [WARN] Out of bounds (min) \n");
+        fprintf(stderr, "[cracon] [WARN] Out of bounds (min) \n");
         return false;
       } else if (high_limit > std::numeric_limits<T>::max()) {
-        fprintf(stderr, "[flacon] [WARN] Out of bounds (max)\n");
+        fprintf(stderr, "[cracon] [WARN] Out of bounds (max)\n");
         return false;
       }
     }
@@ -116,11 +116,11 @@ bool is_similar(nlohmann::json const &value) {
     if (value.is_number_integer()) {
       int high_limit = value.get<int>();
       if (high_limit < 0) {
-        fprintf(stderr, "[flacon] [WARN] Enums have to be >0\n");
+        fprintf(stderr, "[cracon] [WARN] Enums have to be >0\n");
         return false;
       } else if (high_limit > std::pow(2, sizeof(T) * 8 - 1)) {
         // The value has to be representable in the enum
-        fprintf(stderr, "[flacon] [WARN] Out of bounds (max)\n");
+        fprintf(stderr, "[cracon] [WARN] Out of bounds (max)\n");
         return false;
       }
       return true;
@@ -128,9 +128,9 @@ bool is_similar(nlohmann::json const &value) {
     return false;
   }
 
-  fprintf(stderr, "[flacon] [ERROR] type is not supported\n");
+  fprintf(stderr, "[cracon] [ERROR] type is not supported\n");
   return false;
 }
-}  // namespace flacon
+}  // namespace cracon
 
-#endif  // FLACON_SIMILARITY_TRAIT
+#endif  // CRACON_SIMILARITY_TRAIT

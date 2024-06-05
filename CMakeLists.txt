@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(flacon LANGUAGES CXX)
+project(cracon LANGUAGES CXX)
 
 if (NOT DEFINED CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
@@ -17,7 +17,7 @@ option(BUILD_EXAMPLES "Build the examples" ON)
 
 include(cmake/CPM.cmake)
 
-add_library(${PROJECT_NAME} src/flacon.cpp)
+add_library(${PROJECT_NAME} src/cracon.cpp)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 target_include_directories(${PROJECT_NAME} PUBLIC

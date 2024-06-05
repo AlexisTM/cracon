@@ -15,11 +15,11 @@ endif()
 
 include(cmake/CPM.cmake)
 CPMAddPackage(
-  NAME flacon
-  GITHUB_REPOSITORY alexistm/flacon
+  NAME cracon
+  GITHUB_REPOSITORY alexistm/cracon
   GIT_TAG main
   VERSION 0.0.1
-  OPTIONS "BUILD_EXAMPLES OFF"
+  OPTIONS "BUILD_EXAMPLES OFF" "BUILD_TESTING OFF"
 )
 
 add_executable(${PROJECT_NAME} main.cpp)
@@ -27,7 +27,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(${PROJECT_NAME} flacon)
+target_link_libraries(${PROJECT_NAME} cracon)
 
 install(
   TARGETS ${PROJECT_NAME}

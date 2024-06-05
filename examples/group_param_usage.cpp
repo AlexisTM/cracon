@@ -1,22 +1,22 @@
 #include <cstdio>
-#include <flacon/flacon.hpp>
+#include <cracon/cracon.hpp>
 
 class Car {
  public:
-  Car(flacon::SharedFile::Group config) {
+  Car(cracon::SharedFile::Group config) {
     speed = config.get_param<int64_t>("speed", 9000);
     horsepower = config.get_param<int64_t>("horsepower", 120);
     motor_curve = config.get_param<std::array<int, 24>>("motor_curve", {});
   }
 
-  flacon::SharedFile::Param<int64_t> speed;
-  flacon::SharedFile::Param<int64_t> horsepower;
-  flacon::SharedFile::Param<std::array<int, 24>> motor_curve;
+  cracon::SharedFile::Param<int64_t> speed;
+  cracon::SharedFile::Param<int64_t> horsepower;
+  cracon::SharedFile::Param<std::array<int, 24>> motor_curve;
 };
 
 int main() {
   // The SharedFile allows to use the Group and Param features
-  flacon::SharedFile config;
+  cracon::SharedFile config;
   bool success = config.init("config.json", "defaults.json");
   if (!success) {
     fprintf(stderr, "We failed to open, read or write the configuration files.");
