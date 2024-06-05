@@ -39,37 +39,6 @@ cmake --build . --config Release
 ctest
 ```
 
-## Integration in your project
-
-This library uses [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) for dependency management. This permits many other usage, see [examples/cmake...](examples/) for different integrations.
-
-```cmake
-include(cmake/CPM.cmake)
-CPMAddPackage(
-  NAME cracon
-  GITHUB_REPOSITORY alexistm/cracon
-  GIT_TAG main
-  VERSION 0.0.1
-  OPTIONS "BUILD_EXAMPLES OFF" "BUILD_TESTING OFF"
-)
-
-add_executable(${PROJECT_NAME} main.cpp)
-target_include_directories(${PROJECT_NAME} PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
-
-target_link_libraries(${PROJECT_NAME} cracon)
-
-install(
-  TARGETS ${PROJECT_NAME}
-  EXPORT export_${PROJECT_NAME}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin
-)
-
-```
-
 ## API
 
 ### Basic usage
@@ -107,47 +76,70 @@ Will result in:
 }
 ```
 
-### Parameter groups
+### Parameters and groups
 
-Avoid typos by using a parameter group.
+Groups avoids typos when repeating the same namespace multiple times.
+Parameters wraps a value to use a single line to read/write a parameter and avoids repeating the accessor/key.
+
+Both groups and parameters keep a shared_ptr to the File, which is initially created by the SharedFile.
 
 ```c++
-cracon::SharedFile config;
-bool success = config.init("config.json", "defaults.json");
-if (!success) {
-  fprintf(stderr, "We failed to open, read or write the configuration files.");
-  exit(EXIT_FAILURE);
+class Car {
+ public:
+  Car(cracon::SharedFile::Group config) {
+    speed = config.get_param<int64_t>("speed", 9000);
+    horsepower = config.get_param<int64_t>("horsepower", 120);
+    motor_curve = config.get_param<std::array<int, 24>>("motor_curve", {});
+  }
+
+  cracon::SharedFile::Param<int64_t> speed;
+  cracon::SharedFile::Param<int64_t> horsepower;
+  cracon::SharedFile::Param<std::array<int, 24>> motor_curve;
+};
+
+int main() {
+  cracon::SharedFile config;
+  bool success = config.init("config.json", "defaults.json");
+  if (!success) {
+    fprintf(stderr, "We failed to open, read or write the configuration files.");
+    exit(EXIT_FAILURE);
+  }
+
+  Car car = Car(config.get_group("car"));
+  car.speed.set(1000);
+
+  config.write();
 }
-auto car = config.get_group("car");
-auto motor = car.get_group("motor");
-auto speed = motor.get("speed", 9000);
-
-auto the_same_motor = config.get_group("car/motor");
-int horsepower = the_same_motor.get("horsepower", 120);
-
-printf("Speed: %d, horsepower %d\n", speed, horsepower);
-config.write();
-
-// {
-//   "car": {
-//     "motor": {
-//       "speed": 9000,
-//       "horsepower": 120
-//     }
-//   }
-// }
 ```
 
-### Param helper
+## Integration in your project
 
-Live parameters is a wrapper around a value. It wraps a value to use a single line to read/write a parameter and avoid typos in the configuration path.
+This library uses [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) for dependency management. This permits many other usage, see [examples/cmake...](examples/) for different integrations.
 
-```c++
-cracon::SharedFile config;
-bool success = config.init("config.json", "defaults.json");
-auto some_int = config.get_param("int", 42); // cracon::File::Param<int>
-int value = some_int.get(); // 42
-int other_value = some_int.set(50); // Write down 50 & updates internals
+```cmake
+include(cmake/CPM.cmake)
+CPMAddPackage(
+  NAME cracon
+  GITHUB_REPOSITORY alexistm/cracon
+  GIT_TAG main
+  VERSION 0.0.1
+  OPTIONS "BUILD_EXAMPLES OFF" "BUILD_TESTING OFF"
+)
+
+add_executable(${PROJECT_NAME} main.cpp)
+target_include_directories(${PROJECT_NAME} PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+
+target_link_libraries(${PROJECT_NAME} cracon)
+
+install(
+  TARGETS ${PROJECT_NAME}
+  EXPORT export_${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
 ```
 
 ## Considerations
