@@ -219,7 +219,7 @@ class SharedFile : public File {
      */
     void update() {
       assert(config_ != nullptr);
-      config_->set<Type>(accessor_, data_);
+      (void) config_->set<Type>(accessor_, data_);
     }
 
     /**

@@ -25,13 +25,13 @@ int main() {
   Car car = Car(config.get_group("car"));
   car.speed.set(1000);
 
-  printf("speed: %lld, horsepower %lld\n", car.speed.get(), car.horsepower.get());
+  printf("speed: %ld, horsepower %ld\n", car.speed.get(), car.horsepower.get());
 
   // Avoid copies of large data. Note the `auto&`
   printf("curve: ");
   auto& motor_curve = car.motor_curve.get_ref();
   for(int i = 0; i < motor_curve.size(); i++) {
-    printf("%lld ", motor_curve[i]);
+    printf("%ld ", motor_curve[i]);
   }
   printf("\n");
 
