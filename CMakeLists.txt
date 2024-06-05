@@ -1,9 +1,17 @@
 cmake_minimum_required(VERSION 3.14)
 project(flacon LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS_DEBUG "-g2 -ggdb")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+if (NOT DEFINED CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
+
+if (NOT DEFINED CMAKE_CXX_FLAGS_RELEASE)
+  set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+endif()
+
+if (NOT DEFINED CMAKE_CXX_FLAGS_DEBUG)
+  set(CMAKE_CXX_FLAGS_DEBUG "-g2 -ggdb")
+endif()
 
 option(BUILD_EXAMPLES "Build the examples" ON)
 
@@ -19,7 +27,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 CPMAddPackage("gh:nlohmann/json@3.11.3")
 target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json)
 add_dependencies(${PROJECT_NAME} nlohmann_json)
-
 
 install(
   DIRECTORY include/
@@ -49,7 +56,7 @@ if(BUILD_TESTING)
     GITHUB_REPOSITORY google/googletest
     GIT_TAG v1.14.0
     VERSION 1.14.0
-    OPTIONS "INSTALL_GTEST OFF" "gtest_force_shared_crt"
+    OPTIONS "INSTALL_GTEST OFF" "BUILD_GMOCK OFF" "BUILD_GMOCK OFF" "gtest_force_shared_crt"
   )
 
   add_executable(${PROJECT_NAME}_is_similar_test test/is_similar_test.cpp)
