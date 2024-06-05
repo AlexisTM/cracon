@@ -31,7 +31,7 @@ int main() {
   printf("curve: ");
   auto& motor_curve = car.motor_curve.get_ref();
   for(int i = 0; i < motor_curve.size(); i++) {
-    printf("%ld ", motor_curve[i]);
+    printf("%d ", motor_curve[i]);
   }
   printf("\n");
 
