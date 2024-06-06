@@ -7,6 +7,12 @@
 #include "nlohmann/json.hpp"
 
 namespace cracon {
+
+File::File(std::string const &filename_config,
+           std::string const &filename_default) {
+  init(filename_config, filename_default);
+}
+
 bool File::write() {
   std::unique_lock lock(mutex_);
   if (should_write_config_) {
@@ -48,21 +54,21 @@ bool File::init(std::string const &filename_config,
     std::unique_lock lock(mutex_);
     filename_config_ = filename_config;
     filename_default_ = filename_default;
-    try {
-      config_ = nlohmann::json::object();
-      std::ifstream file(filename_config);
-      if (file.good()) {
-        config_ = nlohmann::json::parse(file);
-        if (config_.is_null()) {
-          config_ = nlohmann::json::object();
-        }
+    config_ = nlohmann::json::object();
+    std::ifstream file(filename_config);
+    if (file.good()) {
+      config_ = nlohmann::json::parse(file);
+      if (config_.is_null()) {
+        config_ = nlohmann::json::object();
       }
-    } catch (std::exception const &ex) {
-      fprintf(stderr, "[cracon] [ERROR] %s\n", ex.what());
-      return false;
     }
   }
   return write();
+}
+
+SharedFile::SharedFile(std::string const &filename_config,
+                       std::string const &filename_default) {
+  init(filename_config, filename_default);
 }
 
 bool SharedFile::init(std::string const &filename_config,

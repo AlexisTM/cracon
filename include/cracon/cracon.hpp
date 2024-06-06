@@ -12,18 +12,20 @@
 namespace cracon {
 class File {
  public:
+  File() {}
+  File(std::string const &filename_config, std::string const &filename_default);
   /**
    * @brief Sets the configuration filenames and parses them if it exists.
    *
    * Create the files otherwise. Returns false if it failed to be created/read.
    *
-   * @param filename_filename The json file to to read or create
-   * @param default_filename The default configuration file to create
+   * @param filename_config The json file to to read or create
+   * @param filename_default The default configuration file to create
    * @return true File loaded or created
    * @return false File couldn't be read or created
    */
-  bool init(std::string const &filename_filename,
-            std::string const &default_filename);
+  bool init(std::string const &filename_config,
+            std::string const &filename_default);
   /**
    * @brief True if we the local representation differs from the files.
    */
@@ -136,14 +138,17 @@ class File {
  * classes.
  *
  */
-class SharedFile : public File {
+class SharedFile {
  public:
+  SharedFile(){};
+  SharedFile(std::string const &filename_config,
+             std::string const &filename_default);
   /**
    * @brief Sets the configuration filenames and parses them if it exists. See
    * `File::init`
    */
-  bool init(std::string const &filename_filename,
-            std::string const &default_filename);
+  bool init(std::string const &filename_config,
+            std::string const &filename_default);
 
   /**
    * Live parameter directly writing to/from the file.
@@ -222,7 +227,7 @@ class SharedFile : public File {
      */
     void update() {
       assert(config_ != nullptr);
-      (void) config_->set<Type>(accessor_, data_);
+      (void)config_->set<Type>(accessor_, data_);
     }
 
     /**

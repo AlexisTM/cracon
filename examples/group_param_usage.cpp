@@ -17,12 +17,7 @@ class Car {
 
 int main() {
   // The SharedFile allows to use the Group and Param features
-  cracon::SharedFile config;
-  bool success = config.init("config.json", "defaults.json");
-  if (!success) {
-    fprintf(stderr, "We failed to open, read or write the configuration files.");
-    exit(EXIT_FAILURE);
-  }
+  cracon::SharedFile config = cracon::SharedFile("config.json", "defaults.json");
   Car car = Car(config.get_group("car"));
   car.speed.set(1000);
 
