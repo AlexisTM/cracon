@@ -5,25 +5,25 @@
 **Cracon** is a lightweight C++ library for handling _JSON_ configuration files. It provides a simple and intuitive API for reading, writing configurations. It outputs two files, one `default` with all defaults parameters set in the code, and one for changed parameters.
 
 It supports (tested for):
-- booleans
-- enums
-- (u)int(00)_t
-- float/double
-- std::vector
-- std::string
-- std::array
+* booleans
+* enums
+* (u)int(00)_t
+* float/double
+* std::vector
+* std::string
+* std::array
 
 Most of the heavy lifting is done by [Niels Lohmann's awesome JSON library](https://json.nlohmann.me).
 
 ## Features
 
-- **Easy** to use
-- Somewhat **Type-safe** (it is still JSON)
-- **JSON** format to be human readable
-- Defaults are defined **in the code**
-- Defaults are **reported** to allow review of the defaults in CI/CD
-- Defaults are **not mangled** to the actual configuration to allow to modify defaults who were not explicitly modified
-- Only variations are in the json file
+* **Easy** to use
+* Somewhat **Type-safe** (it is still JSON)
+* **JSON** format to be human readable
+* Defaults are defined **in the code**
+* Defaults are **reported** to allow review of the defaults in CI/CD
+* Defaults are **not mangled** to the actual configuration to allow to modify defaults who were not explicitly modified
+* Only variations are in the json file
 
 ## Build & test
 
@@ -83,23 +83,26 @@ Both groups and parameters keep a shared_ptr to the File, which is initially cre
 ```c++
 class Car {
  public:
-  Car(cracon::SharedFile::Group config) {
+  Car(cracon:: SharedFile:: Group config) {
+
     speed = config.get_param<int64_t>("speed", 9000);
     horsepower = config.get_param<int64_t>("horsepower", 120);
     motor_curve = config.get_param<std::array<int, 24>>("motor_curve", {});
+
   }
 
-  cracon::SharedFile::Param<int64_t> speed;
-  cracon::SharedFile::Param<int64_t> horsepower;
-  cracon::SharedFile::Param<std::array<int, 24>> motor_curve;
+  cracon:: SharedFile:: Param<int64_t> speed;
+  cracon:: SharedFile:: Param<int64_t> horsepower;
+  cracon:: SharedFile:: Param<std::array<int, 24>> motor_curve;
 };
 
 int main() {
-  auto config = cracon::SharedFile("config.json", "defaults.json");
+  auto config = cracon:: SharedFile("config.json", "defaults.json");
   Car car = Car(config.get_group("car"));
   car.speed.set(1000);
   config.write();
 }
+
 ```
 
 ## Debugging
@@ -107,9 +110,11 @@ int main() {
 Build this project with `-DCRACON_ENABLE_LOG=ON` to enable logging.
 
 ```
+
 $ ./cracon_basic_usage.exe
 [cracon] [INFO] The requested key doesn't exist for /oh/hi defaulted to "mark". Error: [json.exception.out_of_range.403] key 'oh' not found
-[cracon] [INFO] The requested key doesn't exist for /vector defaulted to [1.0,2.0,3.0]. Error: [json.exception.out_of_range.403] key 'vector' not found
+[cracon] [INFO] The requested key doesn't exist for /vector defaulted to [1.0, 2.0, 3.0]. Error: [json.exception.out_of_range.403] key 'vector' not found
+
 ```
 
 ## Integration in your project
@@ -144,8 +149,8 @@ install(
 
 ## Considerations
 
-- If `File::get` is called multiple times, only the last call defines the default. Call `File::get` once for consistency or use `Param::get` which won't reparse the data each time. This check was not added as it increases the overhead significantly if it is called often/big configuration files.
-- `set` does not write to the defaults
+* If `File::get` is called multiple times, only the last call defines the default. Call `File::get` once for consistency or use `Param::get` which won't reparse the data each time. This check was not added as it increases the overhead significantly if it is called often/big configuration files.
+* `set` does not write to the defaults
 
 ## Contributing
 

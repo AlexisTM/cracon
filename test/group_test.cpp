@@ -64,29 +64,28 @@ TEST(GroupTest, parameters) {
   EXPECT_EQ(val, 2000);
 }
 
-
 TEST(GroupTest, param_change_from_ref) {
   std::string filename = current_folder + "/group_param_test.json";
   std::remove(filename.c_str());  // Remove the file if it exists
   cracon::SharedFile file;
   bool success =
       file.init(filename, current_folder + "/group_output_test_default.json");
-  auto large_param = file.get_param<std::array<int32_t, 25>>("/large_element", {});
+  auto large_param =
+      file.get_param<std::array<int32_t, 25>>("/large_element", {});
   auto& ref_to_data = large_param.get_ref();
-  for(int i = 0; i < ref_to_data.size(); i++) {
+  for (int i = 0; i < ref_to_data.size(); i++) {
     ref_to_data[i] = i;
   }
   large_param.update();
 
   auto val = file.get<std::array<int32_t, 25>>("/large_element", {});
-  for(int i = 0; i < val.size(); i++) {
+  for (int i = 0; i < val.size(); i++) {
     EXPECT_EQ(val[i], i);
   }
   file.write();
 }
 
-
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   std::string current_file(argv[0]);
   size_t pos = current_file.rfind('/');
   if (pos == std::string::npos) {

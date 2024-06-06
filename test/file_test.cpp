@@ -7,7 +7,7 @@
 std::string current_folder = "";
 
 #define ADD_TEST_INT(TYPE, VALUE, DEFAULT_VALUE)                           \
-  TEST(FileTest, getter_##TYPE) {                                              \
+  TEST(FileTest, getter_##TYPE) {                                          \
     cracon::File file;                                                     \
     bool success =                                                         \
         file.init(current_folder + "/static_test_data.json",               \

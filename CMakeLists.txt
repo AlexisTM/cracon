@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.14)
 project(cracon LANGUAGES CXX)
 
-if (NOT DEFINED CMAKE_CXX_STANDARD)
+if(NOT DEFINED CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
 endif()
 
-if (NOT DEFINED CMAKE_CXX_FLAGS_RELEASE)
+if(NOT DEFINED CMAKE_CXX_FLAGS_RELEASE)
   set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 endif()
 
-if (NOT DEFINED CMAKE_CXX_FLAGS_DEBUG)
+if(NOT DEFINED CMAKE_CXX_FLAGS_DEBUG)
   set(CMAKE_CXX_FLAGS_DEBUG "-g2 -ggdb")
 endif()
 
@@ -19,7 +19,8 @@ include(cmake/CPM.cmake)
 
 add_library(${PROJECT_NAME} src/cracon.cpp)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-if (CRACON_ENABLE_LOG)
+
+if(CRACON_ENABLE_LOG)
   target_compile_definitions(${PROJECT_NAME} PUBLIC CRACON_ENABLE_LOG)
 endif()
 

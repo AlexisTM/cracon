@@ -2,15 +2,13 @@
 #define CRACON_CRACON_HPP
 
 #include <cassert>
+#include <cracon/log.hpp>
+#include <cracon/similarity_traits.hpp>
 #include <fstream>
 #include <memory>
 #include <mutex>
-#include <string>
-
-#include <cracon/log.hpp>
-#include <cracon/similarity_traits.hpp>
-
 #include <nlohmann/json.hpp>
+#include <string>
 
 namespace cracon {
 class File {

@@ -1,6 +1,8 @@
 #include <inttypes.h>
-#include <cstdio>
+
 #include <cracon/cracon.hpp>
+#include <cstdio>
+
 
 class Car {
  public:
@@ -17,16 +19,18 @@ class Car {
 
 int main() {
   // The SharedFile allows to use the Group and Param features
-  cracon::SharedFile config = cracon::SharedFile("config.json", "defaults.json");
+  cracon::SharedFile config =
+      cracon::SharedFile("config.json", "defaults.json");
   Car car = Car(config.get_group("car"));
   car.speed.set(1000);
 
-  printf("speed: %" PRId64 ", horsepower %" PRId64 "\n", car.speed.get(), car.horsepower.get());
+  printf("speed: %" PRId64 ", horsepower %" PRId64 "\n", car.speed.get(),
+         car.horsepower.get());
 
   // Avoid copies of large data. Note the `auto&`
   printf("curve: ");
   auto& motor_curve = car.motor_curve.get_ref();
-  for(int i = 0; i < motor_curve.size(); i++) {
+  for (int i = 0; i < motor_curve.size(); i++) {
     printf("%d ", motor_curve[i]);
   }
   printf("\n");
