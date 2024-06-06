@@ -1,5 +1,7 @@
 # Cracon C++ Library
 
+![cracon uwu logo](doc/img/cracon.jpg)
+
 Cracon stands for Craft Config.
 
 **Cracon** is a lightweight C++ library for handling _JSON_ configuration files. It provides a simple and intuitive API for reading, writing configurations. It outputs two files, one `default` with all defaults parameters set in the code, and one for changed parameters.
