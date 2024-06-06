@@ -2,12 +2,15 @@
 #define CRACON_CRACON_HPP
 
 #include <cassert>
-#include <cracon/similarity_traits.hpp>
 #include <fstream>
 #include <memory>
 #include <mutex>
-#include <nlohmann/json.hpp>
 #include <string>
+
+#include <cracon/log.hpp>
+#include <cracon/similarity_traits.hpp>
+
+#include <nlohmann/json.hpp>
 
 namespace cracon {
 class File {
@@ -50,12 +53,12 @@ class File {
     should_write_config_ = true;
     val = new_value;
     if (val.is_null()) {
-      printf("[cracon] [WARN] The key didn't exist for %s\n", accessor.c_str());
+      CRACON_LOG_WARNING("The key didn't exist for %s\n", accessor.c_str());
     } else {
       if (!is_similar<T>(val)) {
-        printf(
-            "[cracon] [WARN] The new key is not a similar type to the "
-            "precedent configuration: %s replaced by %s\n",
+        CRACON_LOG_WARNING(
+            "The new key is not a similar type to the precedent configuration: "
+            "%s replaced by %s\n",
             accessor.c_str(), val.dump().c_str());
       }
     }
@@ -86,8 +89,8 @@ class File {
     try {
       auto &val = config_.at(pointer);
       if (val.is_null()) {
-        printf(
-            "[cracon] [INFO] The requested key doesn't exist for %s defaulted "
+        CRACON_LOG_INFO(
+            "The requested key doesn't exist for %s defaulted "
             "to \n",
             default_[pointer].dump().c_str());
         return default_val;
@@ -95,19 +98,20 @@ class File {
       // This can happen if: The config file is the wrong type or the code is
       // using the wrong type; It is considered the code is right;
       if (!is_similar<T>(val)) {
-        fprintf(stderr,
-                "[cracon] [ERROR] The read value %s is not a similar type to "
-                "%s at %s defaulted to %s\n",
-                val.dump().c_str(), typeid(T).name(), accessor.c_str(),
-                default_[pointer].dump().c_str());
+        CRACON_LOG_ERROR(
+            "The read value %s is not a similar type to "
+            "%s at %s defaulted to %s\n",
+            val.dump().c_str(), typeid(T).name(), accessor.c_str(),
+            default_[pointer].dump().c_str());
         return default_val;
       }
       return val.get<T>();
     } catch (std::exception const &ex) {
-      printf(
-          "[cracon] [INFO] The requested key doesn't exist for %s defaulted "
+      CRACON_LOG_INFO(
+          "The requested key doesn't exist for %s defaulted "
           "to %s. Error: %s\n",
           accessor.c_str(), default_[pointer].dump().c_str(), ex.what());
+      (void)ex;
       return default_val;
     }
   }

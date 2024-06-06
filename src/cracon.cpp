@@ -33,7 +33,7 @@ bool File::write_to_file(std::string const &filename,
                          nlohmann::json const &config) {
   try {
     if (filename.empty()) {
-      printf("[cracon] [ERROR] The filename is not set, did you init?\n");
+      CRACON_LOG_ERROR("The filename is not set, did you init?\n");
       assert(false);
       return false;
     }
@@ -42,8 +42,9 @@ bool File::write_to_file(std::string const &filename,
     output_file.close();
     return true;
   } catch (std::exception const &ex) {
-    fprintf(stderr, "[Cracon] [ERROR] Error writing the file %s: %s\n",
-            filename.c_str(), ex.what());
+    CRACON_LOG_ERROR("Error writing the file %s: %s\n", filename.c_str(),
+                     ex.what());
+    (void)ex;
     return false;
   }
 }

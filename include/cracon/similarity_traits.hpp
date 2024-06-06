@@ -1,5 +1,5 @@
-#ifndef CRACON_SIMILARITY_TRAIT
-#define CRACON_SIMILARITY_TRAIT
+#ifndef CRACON_SIMILARITY_TRAIT_HPP
+#define CRACON_SIMILARITY_TRAIT_HPP
 
 #include <cassert>
 #include <cstdint>
@@ -133,4 +133,4 @@ bool is_similar(nlohmann::json const &value) {
 }
 }  // namespace cracon
 
-#endif  // CRACON_SIMILARITY_TRAIT
+#endif  // CRACON_SIMILARITY_TRAIT_HPP
