@@ -102,6 +102,16 @@ int main() {
 }
 ```
 
+## Debugging
+
+Build this project with `-DCRACON_ENABLE_LOG=ON` to enable logging.
+
+```
+$ ./cracon_basic_usage.exe
+[cracon] [INFO] The requested key doesn't exist for /oh/hi defaulted to "mark". Error: [json.exception.out_of_range.403] key 'oh' not found
+[cracon] [INFO] The requested key doesn't exist for /vector defaulted to [1.0,2.0,3.0]. Error: [json.exception.out_of_range.403] key 'vector' not found
+```
+
 ## Integration in your project
 
 This library uses [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) for dependency management. This permits many other usage, see [examples/cmake...](examples/) for different integrations.
